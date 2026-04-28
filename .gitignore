@@ -1,0 +1,85 @@
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Distribuição / build
+build/
+dist/
+*.egg-info/
+
+# =========================
+# Ambiente Virtual
+# =========================
+.venv/
+venv/
+env/
+ENV/
+
+# =========================
+# Logs
+# =========================
+*.log
+logs/
+*.out
+
+# =========================
+# Arquivos temporários
+# =========================
+*.tmp
+*.bak
+*.swp
+
+# =========================
+# VS Code
+# =========================
+.vscode/
+
+# =========================
+# PyCharm
+# =========================
+.idea/
+
+# =========================
+# Sistema Operacional
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Outputs do projeto
+# =========================
+output/
+*.xlsx
+*.csv
+*.json
+
+# =========================
+# Arquivos SSIS locais (opcional)
+# =========================
+# Descomente se não quiser versionar projetos SSIS locais
+# *.dtsx
+# *.dtproj
+# *.conmgr
+
+# =========================
+# Testes / cobertura
+# =========================
+.coverage
+htmlcov/
+.pytest_cache/
+
+# =========================
+# Secrets / configs
+# =========================
+.env
+.env.*
+
+# =========================
+# Jupyter (caso use)
+# =========================
+.ipynb_checkpoints/
