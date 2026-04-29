@@ -1,80 +1,481 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SSIS Inventory</title>
-<style>
-body { font-family: Arial, sans-serif; margin:0; padding:0; background:#0f172a; color:#e2e8f0;}
-.container { max-width:1000px; margin:auto; padding:40px;}
-h1 { font-size:48px; margin-bottom:10px;}
-h2 { margin-top:40px; color:#38bdf8;}
-p { line-height:1.6;}
-.card { background:#1e293b; padding:20px; border-radius:12px; margin-top:20px;}
-.button { display:inline-block; padding:12px 20px; margin-top:20px; background:#38bdf8; color:#0f172a; text-decoration:none; border-radius:8px; font-weight:bold;}
-.footer { margin-top:60px; font-size:14px; color:#94a3b8;}
-.lang { margin-top:40px;}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SSIS Inventory | Understand your SSIS environment in minutes</title>
+  <meta name="description" content="SSIS Inventory helps teams analyze, document and reduce risks in legacy SSIS environments." />
+
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg-soft: #111827;
+      --card: #1e293b;
+      --card-light: #243449;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-dark: #0284c7;
+      --white: #ffffff;
+      --success: #22c55e;
+      --warning: #facc15;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, var(--bg), #020617);
+      color: var(--text);
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .container {
+      width: min(1120px, 92%);
+      margin: 0 auto;
+    }
+
+    header {
+      padding: 28px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-weight: 800;
+      font-size: 20px;
+      letter-spacing: -0.02em;
+    }
+
+    .nav a {
+      margin-left: 20px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .nav a:hover {
+      color: var(--accent);
+    }
+
+    .hero {
+      padding: 80px 0 64px;
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--accent);
+      border: 1px solid rgba(56, 189, 248, 0.28);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 14px;
+      margin-bottom: 22px;
+    }
+
+    h1 {
+      font-size: clamp(40px, 6vw, 72px);
+      line-height: 0.98;
+      margin: 0 0 24px;
+      letter-spacing: -0.06em;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 20px;
+      line-height: 1.55;
+      max-width: 720px;
+      margin-bottom: 28px;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 14px 22px;
+      border-radius: 12px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+
+    .button-primary {
+      background: var(--accent);
+      color: #082f49;
+    }
+
+    .button-primary:hover {
+      background: #7dd3fc;
+      transform: translateY(-1px);
+    }
+
+    .button-secondary {
+      border: 1px solid rgba(226, 232, 240, 0.22);
+      color: var(--text);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .button-secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    .hero-card {
+      background: linear-gradient(180deg, var(--card), #0f172a);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 22px;
+      padding: 26px;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+    }
+
+    .metric {
+      padding: 18px 0;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+    }
+
+    .metric:last-child {
+      border-bottom: none;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 28px;
+      color: var(--white);
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    section {
+      padding: 64px 0;
+    }
+
+    .section-title {
+      font-size: 36px;
+      margin: 0 0 14px;
+      letter-spacing: -0.04em;
+    }
+
+    .section-lead {
+      color: var(--muted);
+      max-width: 760px;
+      line-height: 1.65;
+      margin-bottom: 30px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      background: rgba(30, 41, 59, 0.84);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      border-radius: 18px;
+      padding: 24px;
+    }
+
+    .card h3 {
+      margin-top: 0;
+      margin-bottom: 12px;
+      font-size: 20px;
+    }
+
+    .card p, .card li {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .card ul {
+      padding-left: 20px;
+      margin-bottom: 0;
+    }
+
+    .code {
+      background: #020617;
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      border-radius: 14px;
+      padding: 18px;
+      color: #bae6fd;
+      overflow-x: auto;
+      font-family: Consolas, Monaco, monospace;
+      font-size: 14px;
+    }
+
+    .offer {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.12), rgba(34, 197, 94, 0.08));
+      border: 1px solid rgba(56, 189, 248, 0.24);
+      border-radius: 24px;
+      padding: 34px;
+    }
+
+    .offer h2 {
+      margin-top: 0;
+    }
+
+    .language-block {
+      border-top: 1px solid rgba(148, 163, 184, 0.16);
+      padding-top: 26px;
+      margin-top: 26px;
+    }
+
+    .contact-box {
+      background: #020617;
+      border: 1px solid rgba(56, 189, 248, 0.26);
+      border-radius: 22px;
+      padding: 32px;
+      text-align: center;
+    }
+
+    footer {
+      padding: 38px 0;
+      color: var(--muted);
+      border-top: 1px solid rgba(148, 163, 184, 0.14);
+      font-size: 14px;
+    }
+
+    @media (max-width: 860px) {
+      header {
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .nav a {
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+
+      .hero,
+      .grid,
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 46px;
+      }
+    }
+  </style>
 </head>
 
 <body>
+  <header class="container">
+    <div class="logo">🚀 SSIS Inventory</div>
+    <nav class="nav">
+      <a href="#problem">Problem</a>
+      <a href="#solution">Solution</a>
+      <a href="#use-cases">Use cases</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
 
-<div class="container">
+  <main>
+    <section class="hero container">
+      <div>
+        <div class="badge">Open source · SSIS · Data Engineering · Legacy Modernization</div>
+        <h1>Understand your SSIS environment in minutes — not days.</h1>
+        <p class="subtitle">
+          SSIS Inventory helps BI and Data Engineering teams analyze SSIS projects, extract key metadata,
+          document legacy environments and reduce migration risk.
+        </p>
 
-<h1>🚀 SSIS Inventory</h1>
-<p><strong>Understand your SSIS environment in minutes — not days</strong></p>
+        <div class="cta-row">
+          <a class="button button-primary" href="https://github.com/sql-server-toolkit/ssis-inventory" target="_blank" rel="noopener">
+            View on GitHub
+          </a>
+          <a class="button button-secondary" href="#contact">
+            Let’s talk about your SSIS environment
+          </a>
+        </div>
+      </div>
 
-<a class="button" href="https://github.com/sql-server-toolkit/ssis-inventory">View on GitHub</a>
+      <aside class="hero-card">
+        <div class="metric">
+          <strong>.dtsx / .ispac</strong>
+          <span>Analyze SSIS project files and packages</span>
+        </div>
+        <div class="metric">
+          <strong>Metadata</strong>
+          <span>Extract parameters, variables, connections and SQL commands</span>
+        </div>
+        <div class="metric">
+          <strong>Risk reduction</strong>
+          <span>Support audits, documentation and migration planning</span>
+        </div>
+      </aside>
+    </section>
 
-<div class="card">
-<h2>❗ The Problem</h2>
-<p>SSIS environments are complex, undocumented, and risky to maintain or migrate.</p>
-</div>
+    <section id="problem" class="container">
+      <h2 class="section-title">The problem</h2>
+      <p class="section-lead">
+        Many companies still depend on SSIS environments that are critical, complex and poorly documented.
+        Before any change, migration or incident analysis, teams often need to manually inspect dozens or hundreds of packages.
+      </p>
 
-<div class="card">
-<h2>💡 The Solution</h2>
-<p>SSIS Inventory analyzes your SSIS projects and extracts key metadata automatically.</p>
-</div>
+      <div class="grid">
+        <div class="card">
+          <h3>Hidden dependencies</h3>
+          <p>Connections, variables and embedded SQL logic are often spread across packages and hard to track.</p>
+        </div>
+        <div class="card">
+          <h3>Outdated documentation</h3>
+          <p>Teams rely on tribal knowledge, spreadsheets or manual documentation that becomes obsolete quickly.</p>
+        </div>
+        <div class="card">
+          <h3>Migration risk</h3>
+          <p>Moving to Azure, Microsoft Fabric or another platform is risky without a reliable inventory.</p>
+        </div>
+      </div>
+    </section>
 
-<div class="card">
-<h2>🔍 Features</h2>
-<ul>
-<li>Parameters</li>
-<li>Variables</li>
-<li>Connections</li>
-<li>SQL Commands</li>
-<li>Package Structure</li>
-</ul>
-</div>
+    <section id="solution" class="container">
+      <h2 class="section-title">The solution</h2>
+      <p class="section-lead">
+        SSIS Inventory provides an automated way to scan SSIS projects and produce structured information
+        that can support audits, maintenance, documentation and modernization initiatives.
+      </p>
 
-<div class="card">
-<h2>📊 Use Cases</h2>
-<ul>
-<li>Audit environments</li>
-<li>Prepare migrations</li>
-<li>Generate documentation</li>
-<li>Improve maintenance</li>
-</ul>
-</div>
+      <div class="grid-2">
+        <div class="card">
+          <h3>What it extracts</h3>
+          <ul>
+            <li>Project and package structure</li>
+            <li>Parameters and variables</li>
+            <li>Connections and connection managers</li>
+            <li>Embedded SQL commands</li>
+            <li>Relevant metadata for analysis</li>
+          </ul>
+        </div>
 
-<div class="card">
-<h2>💼 Need Help?</h2>
-<p>Consulting available for SSIS, Azure, and Fabric migrations.</p>
-</div>
+        <div class="card">
+          <h3>How to run</h3>
+          <div class="code">python -m app.main --project-folder "&lt;your_ssis_project&gt;" --output-folder "./output"</div>
+        </div>
+      </div>
+    </section>
 
-<div class="lang">
-<h2>🇧🇷 Português</h2>
-<p>Entenda seu ambiente SSIS rapidamente e reduza riscos em migrações e manutenção.</p>
+    <section id="use-cases" class="container">
+      <h2 class="section-title">Use cases</h2>
+      <p class="section-lead">
+        Use SSIS Inventory as a first step before technical decisions that require visibility into a legacy ETL environment.
+      </p>
 
-<h2>🇪🇸 Español</h2>
-<p>Comprende tu entorno SSIS rápidamente y reduce riesgos en migraciones.</p>
-</div>
+      <div class="grid">
+        <div class="card">
+          <h3>Environment audit</h3>
+          <p>Map what exists before planning improvements, refactoring or support actions.</p>
+        </div>
+        <div class="card">
+          <h3>Migration preparation</h3>
+          <p>Identify dependencies and reduce uncertainty before moving workloads to modern platforms.</p>
+        </div>
+        <div class="card">
+          <h3>Documentation</h3>
+          <p>Generate structured outputs that can be shared with technical teams, managers and stakeholders.</p>
+        </div>
+      </div>
+    </section>
 
-<div class="footer">
-<p>Developed by Renan Andrade — BI & Data Engineering Specialist</p>
-</div>
+    <section class="container">
+      <div class="offer">
+        <h2 class="section-title">Need help with SSIS?</h2>
+        <p class="section-lead">
+          I help teams understand, document and modernize SSIS environments.
+          A good first step is a quick assessment of your SSIS packages to identify structure, dependencies and risks.
+        </p>
 
-</div>
+        <div class="grid-2">
+          <div class="card">
+            <h3>SSIS Quick Assessment</h3>
+            <ul>
+              <li>Initial inventory of SSIS packages</li>
+              <li>Identification of visible risks and dependencies</li>
+              <li>Structured summary for decision-making</li>
+              <li>Recommendations for next steps</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Best fit for</h3>
+            <ul>
+              <li>BI and data teams</li>
+              <li>Legacy SQL Server environments</li>
+              <li>Migration to Azure or Microsoft Fabric</li>
+              <li>Teams without updated SSIS documentation</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
 
+    <section class="container">
+      <h2 class="section-title">Trilingual summary</h2>
+
+      <div class="language-block">
+        <h3>🇧🇷 Português</h3>
+        <p class="section-lead">
+          O SSIS Inventory ajuda equipes de BI e Engenharia de Dados a entender, documentar e reduzir riscos
+          em ambientes SSIS legados, extraindo automaticamente metadados de arquivos .dtsx e .ispac.
+        </p>
+      </div>
+
+      <div class="language-block">
+        <h3>🇪🇸 Español</h3>
+        <p class="section-lead">
+          SSIS Inventory ayuda a equipos de BI e Ingeniería de Datos a comprender, documentar y reducir riesgos
+          en entornos SSIS heredados, extrayendo automáticamente metadatos de archivos .dtsx y .ispac.
+        </p>
+      </div>
+    </section>
+
+    <section id="contact" class="container">
+      <div class="contact-box">
+        <h2 class="section-title">Let’s talk about your SSIS environment</h2>
+        <p class="section-lead" style="margin-left:auto;margin-right:auto;">
+          If you work with SSIS and need visibility, documentation or migration support, feel free to connect.
+        </p>
+
+        <div class="cta-row" style="justify-content:center;">
+          <a class="button button-primary" href="https://www.linkedin.com/in/renanoliveiraandrade/" target="_blank" rel="noopener">
+            Connect on LinkedIn
+          </a>
+          <a class="button button-secondary" href="mailto:axlrn@hotmail.com?subject=SSIS%20Inventory%20-%20Contact">
+            Send an email
+          </a>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="container">
+    <p>Developed by Renan Andrade — BI & Data Engineering Specialist</p>
+    <p>Open source project: SSIS Inventory · SQL Server Toolkit</p>
+  </footer>
 </body>
 </html>
