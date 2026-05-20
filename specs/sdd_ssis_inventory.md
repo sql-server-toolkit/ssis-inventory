@@ -95,3 +95,19 @@ Disponibilizados na pasta `tests/`.
 
 ## 10. 🚀 CI/CD
 Workflow GitHub Actions em `.github/workflows/ci.yml`.
+
+## 11. Web e internacionalizacao
+
+As decisoes tecnicas para disponibilizar o consumo da solucao via aplicacao web
+gratuita estao registradas em `specs/web_i18n_architecture.md`.
+
+Resumo:
+- Front-end estatico em HTML/CSS/JavaScript, publicado via GitHub Pages.
+- Backend Python em FastAPI/Uvicorn, publicado inicialmente no Render Free Web
+  Service.
+- Upload de um unico `.zip` contendo o projeto SSIS.
+- Processamento em diretorio temporario por `job_id`.
+- Download de relatorios Excel/JSON por janela limitada.
+- Suporte de interface para PT-BR, EN e ES, com deteccao automatica e fallback
+  para EN.
+- Preservacao obrigatoria do fluxo CLI atual.
